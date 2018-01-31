@@ -1,4 +1,4 @@
-# Code sample
+# Securities averages, etc.
 
 Requires
 * Maven 3+
@@ -8,7 +8,11 @@ To build, test and produce a runnable jar use `mvn clean package`
 
 To run 
 
-    java -jar code_sample-1.jar [options] <ticker_id>...
+    java -jar code_sample-1.jar [options] <api_key> <ticker_id>...
+
+Note that an api key and at least one ticker ID is required for this application to continue.
+
+Alternatively a Makefile is included that can simplify all of this using `make clean package run`
 
 Options available:
 
@@ -21,12 +25,12 @@ Options available:
 
 E.g., to see the base data for COF, GOOGL and MSFT use
 
-    java -jar code_sample-1.jar COF GOOGL MSFT
+    java -jar code_sample-1.jar ******* COF GOOGL MSFT
     
 For a custom date range of the same stock tickers you could use 
 
-    java -jar code_sample-1.jar -start 2017-03-01 -end 2017-08-30  COF GOOGL MSFT
+    java -jar code_sample-1.jar -start 2017-03-01 -end 2017-08-30 ******* COF GOOGL MSFT
     
 Or see all of the extra details with
 
-    java -jar target/code_sample-1.jar -profit -busy -loser GOOGL COF
+    java -jar target/code_sample-1.jar -profit -busy -loser ******* GOOGL COF

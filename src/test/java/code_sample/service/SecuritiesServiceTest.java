@@ -45,7 +45,7 @@ public class SecuritiesServiceTest {
 		final Collection<SecuritiesHistory> histories = this.tickerService.getData(JANUARY_1, JANUARY_31, asList(TICKER_GOOGLE));
 
 		assertEquals(1, histories.size());
-		assertEquals(1, histories.iterator().next().monthlyHistory().size());
+		assertEquals(1, histories.iterator().next().getMonthlyHistory().size());
 
 	}
 }

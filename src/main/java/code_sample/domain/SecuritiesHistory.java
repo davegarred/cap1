@@ -20,7 +20,7 @@ import code_sample.api.UnexpectedClientResponseException;
 public class SecuritiesHistory {
 
 	private final String security;
-	private final Map<LocalDate,SecuritiesMonthlyHistory> historyMap = new HashMap<>();
+	private final Map<LocalDate,SecuritiesMonthlyAverage> historyMap = new HashMap<>();
 
 	private DailyValue dailyMaxProfit;
 	private BigDecimal totalVolume = ZERO;
@@ -37,24 +37,10 @@ public class SecuritiesHistory {
 		}
 	}
 
-	public String security() {
-		return this.security;
-	}
-
-	public Collection<SecuritiesMonthlyHistory> monthlyHistory() {
-		return this.historyMap.values();
-	}
-
 	private void parse(DateData dailyHistory) {
-		final LocalDate firstOfMonth = dailyHistory.date.withDayOfMonth(1);
-		SecuritiesMonthlyHistory hist = this.historyMap.get(firstOfMonth);
-		if(hist == null) {
-			hist = new SecuritiesMonthlyHistory(firstOfMonth);
-			this.historyMap.put(firstOfMonth, hist);
-		}
 		this.daysWithData++;
-		addDay(dailyHistory.date, dailyHistory.open, dailyHistory.close, dailyHistory.high, dailyHistory.low, dailyHistory.volume);
-		hist.addDay(dailyHistory.open, dailyHistory.close);
+		this.addDay(dailyHistory.date, dailyHistory.open, dailyHistory.close, dailyHistory.high, dailyHistory.low, dailyHistory.volume);
+		setMonthlyAverages(dailyHistory);
 	}
 
 	private void addDay(LocalDate date, BigDecimal open, BigDecimal close, BigDecimal high, BigDecimal low, BigDecimal volume) {
@@ -70,20 +56,41 @@ public class SecuritiesHistory {
 		this.volumeByDay.add(new DailyValue(date, volume));
 	}
 
-	public DailyValue dailyMaxProfit() {
+	private void setMonthlyAverages(DateData dailyHistory) {
+		final LocalDate firstOfMonth = dailyHistory.date.withDayOfMonth(1);
+		SecuritiesMonthlyAverage month = this.historyMap.get(firstOfMonth);
+		if(month == null) {
+			month = new SecuritiesMonthlyAverage(firstOfMonth);
+			this.historyMap.put(firstOfMonth, month);
+		}
+		month.addDay(dailyHistory.open, dailyHistory.close);
+	}
+
+	public String getSecurityTicker() {
+		return this.security;
+	}
+
+	public Collection<SecuritiesMonthlyAverage> getMonthlyHistory() {
+		return this.historyMap.values();
+	}
+
+	public DailyValue getDailyMaxProfit() {
 		return this.dailyMaxProfit;
 	}
 
-	public int losingDays() {
+	public int getLosingDays() {
 		return this.losingDays;
 	}
 
-	public BigDecimal averageVolume() {
+	public BigDecimal getAverageVolume() {
+		if(this.daysWithData == 0) {
+			return ZERO;
+		}
 		return this.totalVolume.divide(new BigDecimal(this.daysWithData), HALF_UP);
 	}
 
-	public List<DailyValue> busiestDays() {
-		final BigDecimal busiestCutoff = averageVolume().multiply(new BigDecimal(1.1));
+	public List<DailyValue> getBusiestDays() {
+		final BigDecimal busiestCutoff = getAverageVolume().multiply(new BigDecimal(1.1));
 		return this.volumeByDay.stream()
 				.filter(v -> v.getValue().compareTo(busiestCutoff) > 0)
 				.collect(Collectors.toList());

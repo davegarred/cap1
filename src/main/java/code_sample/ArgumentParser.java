@@ -20,6 +20,7 @@ public class ArgumentParser {
 
 	private LocalDate startDate = LocalDate.of(2017, 1, 1);
 	private LocalDate endDate = LocalDate.of(2017, 6, 30);
+	private String apiKey;
 	private final List<String> tickers;
 
 	private boolean profit;
@@ -33,30 +34,40 @@ public class ArgumentParser {
 	private List<String> parseArgs(String[] args) {
 		final Options options = buildOptions();
 		try {
-			final CommandLine line = new DefaultParser().parse(options, args);
-			if(line.hasOption("help")) {
-				return showHelp(options);
-			}
-			if(line.hasOption("start")) {
-				this.startDate = parseDate(line.getOptionValue("start"));
-			}
-			if(line.hasOption("end")) {
-				this.endDate = parseDate(line.getOptionValue("end"));
-			}
-			if(line.hasOption("profit")) {
-				this.profit = true;
-			}
-			if(line.hasOption("busy")) {
-				this.busy = true;
-			}
-			if(line.hasOption("loser")) {
-				this.loser = true;
-			}
-			return line.getArgList();
+			return setSelectedValues(args, options);
 		} catch (final ParseException e) {
 			System.out.println("Parse error - " + e.getMessage());
 			return showHelp(options);
 		}
+	}
+
+	private List<String> setSelectedValues(String[] args, final Options options) throws ParseException {
+		final CommandLine line = new DefaultParser().parse(options, args);
+		if(line.hasOption("help")) {
+			return showHelp(options);
+		}
+		if(line.hasOption("start")) {
+			this.startDate = parseDate(line.getOptionValue("start"));
+		}
+		if(line.hasOption("end")) {
+			this.endDate = parseDate(line.getOptionValue("end"));
+		}
+		if(line.hasOption("profit")) {
+			this.profit = true;
+		}
+		if(line.hasOption("busy")) {
+			this.busy = true;
+		}
+		if(line.hasOption("loser")) {
+			this.loser = true;
+		}
+		final List<String> argumentList = line.getArgList();
+		if(argumentList.size() < 2) {
+			System.out.println("Not enough arguments passed");
+			return showHelp(options);
+		}
+		this.apiKey = argumentList.remove(0);
+		return line.getArgList();
 	}
 
 	private static LocalDate parseDate(String dateString) throws ParseException {
@@ -80,8 +91,12 @@ public class ArgumentParser {
 
 	private static List<String> showHelp(final Options options) {
 		final HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp("java -jar <jarfile> [options] ticker...", options);
+		formatter.printHelp("java -jar <jarfile> [options] <api_key> <ticker>...", options);
 		return emptyList();
+	}
+
+	public String getApiKey() {
+		return this.apiKey;
 	}
 
 	public LocalDate getStartDate() {

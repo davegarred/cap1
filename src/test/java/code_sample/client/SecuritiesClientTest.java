@@ -13,7 +13,8 @@ import code_sample.api.TickerPriceDto;
  */
 public class SecuritiesClientTest {
 
-	private final SecuritiesClient client = new SecuritiesClient();
+	private static final String API_KEY = "s-GMZ_xkw6CrkGYUWs1p";
+	private final SecuritiesClient client = new SecuritiesClient(API_KEY);
 
 	@Test
 	public void testClient() {

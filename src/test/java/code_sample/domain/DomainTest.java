@@ -28,22 +28,22 @@ public class DomainTest {
 		data.add(dateData(JAN_7, new BigDecimal("211"), new BigDecimal("220"), new BigDecimal("220"), new BigDecimal("210"), new BigDecimal("208564")));
 		final SecuritiesHistory hist = new SecuritiesHistory("GOOGL", new Datatable(data, expectedColumns()));
 
-		final SecuritiesMonthlyHistory january = hist.monthlyHistory().iterator().next();
+		final SecuritiesMonthlyAverage january = hist.getMonthlyHistory().iterator().next();
 		assertEquals(new BigDecimal("215"), january.getAverageOpen());
 		assertEquals(new BigDecimal("216"), january.getAverageClose());
 
-		final DailyValue max = hist.dailyMaxProfit();
+		final DailyValue max = hist.getDailyMaxProfit();
 		assertEquals(JAN_6, max.getDate());
 		assertEquals(new BigDecimal("11"), max.getValue());
 
-		final List<DailyValue> busiestDays = hist.busiestDays();
+		final List<DailyValue> busiestDays = hist.getBusiestDays();
 		assertEquals(2, busiestDays.size());
 		assertEquals(JAN_5, busiestDays.get(0).getDate());
 		assertEquals(new BigDecimal("199205"), busiestDays.get(0).getValue());
 		assertEquals(JAN_7, busiestDays.get(1).getDate());
 		assertEquals(new BigDecimal("208564"), busiestDays.get(1).getValue());
 
-		assertEquals(1, hist.losingDays());
+		assertEquals(1, hist.getLosingDays());
 	}
 
 }

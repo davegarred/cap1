@@ -30,14 +30,14 @@ public class SecuritiesHistoryTest {
 		final Datatable datatable = new Datatable(data, expectedColumns());
 
 		final SecuritiesHistory history = new SecuritiesHistory("GOOGL", datatable);
-		assertEquals(2, history.monthlyHistory().size());
+		assertEquals(2, history.getMonthlyHistory().size());
 
-		final Iterator<SecuritiesMonthlyHistory> resultIterator = history.monthlyHistory().iterator();
+		final Iterator<SecuritiesMonthlyAverage> resultIterator = history.getMonthlyHistory().iterator();
 
-		final SecuritiesMonthlyHistory january = resultIterator.next();
+		final SecuritiesMonthlyAverage january = resultIterator.next();
 		assertEquals(LocalDate.of(2017, 1, 1), january.getMonth());
 
-		final SecuritiesMonthlyHistory february = resultIterator.next();
+		final SecuritiesMonthlyAverage february = resultIterator.next();
 		assertEquals(LocalDate.of(2017, 2, 1), february.getMonth());
 	}
 

@@ -6,7 +6,7 @@ import static java.math.RoundingMode.HALF_UP;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class SecuritiesMonthlyHistory {
+public class SecuritiesMonthlyAverage {
 
 	private final LocalDate firstDayOfMonth;
 
@@ -14,7 +14,7 @@ public class SecuritiesMonthlyHistory {
 	private BigDecimal sumClose = ZERO;
 	private int daysWithData;
 
-	public SecuritiesMonthlyHistory(LocalDate firstDayOfMonth) {
+	public SecuritiesMonthlyAverage(LocalDate firstDayOfMonth) {
 		this.firstDayOfMonth = firstDayOfMonth;
 	}
 
