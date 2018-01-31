@@ -1,5 +1,10 @@
 # Securities averages, etc.
 
+I built this out as a command-line application since it is to run ad-hoc
+and we just want to make it user readable. Building this project with maven
+should produce a self-running jar. I've also added a pre-compiled jar to the 
+root directory that can be used instead.
+
 Requires
 * Maven 3+
 * JDK 1.8
@@ -13,6 +18,8 @@ To run
 Note that an api key and at least one ticker ID is required for this application to continue.
 
 Alternatively a Makefile is included that can simplify all of this using `make clean package run`
+
+Alternatively to that you can use the Makefile to run the prebuilt jar with `make run-compiled`
 
 Options available:
 
