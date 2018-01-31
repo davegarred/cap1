@@ -1,0 +1,40 @@
+{
+  "datatable": {
+    "data": [
+      [
+        "2017-01-32",
+        800.62,
+        808.01,
+        811.435,
+        796.89,
+        1959033
+      ]
+    ],
+    "columns": [
+      {
+        "name": "date",
+        "type": "Date"
+      },
+      {
+        "name": "open",
+        "type": "BigDecimal(34,12)"
+      },
+      {
+        "name": "close",
+        "type": "BigDecimal(34,12)"
+      },
+      {
+        "name": "high",
+        "type": "BigDecimal(34,12)"
+      },
+      {
+        "name": "low",
+        "type": "BigDecimal(34,12)"
+      },
+      {
+        "name": "volume",
+        "type": "BigDecimal(37,15)"
+      }
+    ]
+  }
+}
